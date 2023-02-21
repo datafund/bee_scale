@@ -1,0 +1,49 @@
+version: "3.7"
+
+services:
+  sidecar:
+    build:
+      context: ./sidecar
+    image: sidecar:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - ./port.sh:/port.sh
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  bee:
+    build:
+      context: ./bee
+    image: bee-scale:latest
+    entrypoint: /bin/bash -c
+    command:
+      - |
+        export DPORT=$(curl -s sidecar:8080/port?PORT="{$HOSTNAME}")
+        export PUB_IP=$(curl -s ifconfig.me)
+        export BEE_NAT_ADDR=$PUB_IP:$DPORT
+        bee start
+    environment:
+      - BEE_PASSWORD=changeme
+      - BEE_SWAP_ENDPOINT=<<<ENTER A RPC ENDPONT HERE>>>> ###
+      - BEE_DB_OPEN_FILES_LIMIT=1000
+      - BEE_FULL_NODE=true
+      - BEE_DEBUG_API_ENABLE=true
+    ports:
+      - "36330-36339:1633"
+      - "36340-36349:1634"
+      - "36350-36359:1635"
+    restart: "unless-stopped" 
+    depends_on: 
+      - sidecar
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"   # number of files or file count
+        max-size: "10m" # file size
