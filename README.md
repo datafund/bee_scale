@@ -43,6 +43,6 @@ when theres an bee update edit the image tag in the bee Dockerile and rebuild.
 ```
 vi bee/Dockerfile
 docker build
-docker up -d
+docker up -d --scale bee=10
 ```
 
