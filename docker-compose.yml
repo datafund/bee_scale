@@ -17,7 +17,8 @@ services:
     image: bee-scale:latest
     environment:
       - BEE_PASSWORD=changeme
-      - BEE_SWAP_ENDPOINT=<<<ENTER YOUR GNOSIS RPC ADDRESS>>>
+      - BEE_SWAP_ENABLE=true
+      - BEE_BLOCKCHAIN_RPC_ENDPOINT=<<<ENTER YOUR GNOSIS RPC ADDRESS>>>
       - BEE_DB_OPEN_FILES_LIMIT=1000
       - BEE_FULL_NODE=true
       - BEE_DEBUG_API_ENABLE=true
