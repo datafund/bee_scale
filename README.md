@@ -6,7 +6,8 @@ Recommended resources per bee:
 SSD/NVMe is MANDATORY if you want to run more than 1 bee!
 
 
-### you should have docker and docker compose on your system. Also you need access to a RPC endpoint and knowledge about your FIREWALL and or NAT to forward ports. the P2P port (1634) should be forwarded to bee server
+### you should have docker and docker compose on your system. Also you need access to a RPC endpoint and knowledge about your FIREWALL and or NAT to forward ports. one P2P port (default 1634) should be forwarded to bee per bee instance. 
+If you have questions about any othe above turn arround :)
 
 clone repo:
 ```
